@@ -1,17 +1,26 @@
 package com.example.demo;
 
-import com.example.demo.Task_A.TestBean;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.context.event.EventListener;
 
 @SpringBootApplication
 public class DemoApplication {
+    @Autowired
+    @Qualifier("name1")
+    private String nameTom;
 
     public static void main(String[] args) {
-        AnnotationConfigApplicationContext context
-                = new AnnotationConfigApplicationContext(TestBean.class);
-        String str = context.getBean("name1",String.class);
-        System.out.println(str);
+        SpringApplication.run(DemoApplication.class, args);
 
+    }
+
+    @EventListener(ContextRefreshedEvent.class)
+    public void bigBikeMethod() {
+
+        System.out.println(nameTom);
     }
 }
